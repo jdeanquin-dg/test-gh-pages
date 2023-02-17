@@ -36,4 +36,11 @@ AMP evolved in the context of mid-2000’ technologies, revolving periodically t
 
 Along with different reengineering efforts, revamped most relevant modules UI like GIS, Dashboards, Tabs, Filters, and some Admin parts,  that now embrace a new look and feel. Modern JS libraries and tools are used to ease development and maintenance. The decoupling from the AMP system via its API allowed us to address each AMP module's particular needs.
 
+Charts are built with the help of [D3.js](https://d3js.org/), a JavaScript library for data-driven documents. D3.js combines powerful visualization components with a data-driven approach to DOM manipulation, emphasizing web standards. We also reuse the pre-build D3 components provided by [NVD3](http://nvd3.org/).  We built new charts and new areas of the admin side using [ReactJS](https://reactjs.org) and [ReduxJS](https://redux.js.org/) together with [Nivo](https://nivo.rocks/) to give the user unique UI/UX experiences.
 
+We reuse a free and open-source collection of tools provided by [Bootstrap](http://getbootstrap.com/) that includes HTML and CSS-based templates for forms, buttons, navigation, and other interface components, as well as optional JavaScript extensions. 
+[Backbone](http://backbonejs.org/) allowed us a quicker development of models with its support for key-value binding, custom events, collections with a rich API of enumerable functions, and views with declarative event handling that could be easily connected to AMP API. These contributed to the easy development of different elements for Reports UI.
+
+Open source [jqGrid](http://jqgrid.com/) plugin on top of jQuery came in to support the Tabs results display in a simple grid view, with its support for pagination, AJAX.
+
+To provide an interactive GIS experience, AMP relied upon [Leaflet](https://leafletjs.com/), [Esri-Leaflet](https://esri.github.io/esri-leaflet/) and [React-LeaftLet](https://react-leaflet.js.org/) plugins. Built with simplicity, performance, and usability in mind, it enabled us with a full set of mapping features, as well as mobile-friendly support. Esri-Leaflet provided us with tools for consuming ArcGIS services with Leaflet.
