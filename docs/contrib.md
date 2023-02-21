@@ -27,6 +27,10 @@ After creating the fork, you must copy it locally in order to work. This is call
 
 Follow [these steps](https://docs.github.com/en/get-started/quickstart/contributing-to-projects#cloning-a-fork) to produce a clone on your computer.
 
+## Local development setup
+
+Follow the instructions in the [Local Development Setup](/dev-setup/) page to setup your local development environment.
+
 ## Making and pushing changes
 
 On the local cloned repository, you can change the code and make the required changes in similar way as described [here](https://docs.github.com/en/get-started/quickstart/contributing-to-projects#making-and-pushing-changes).

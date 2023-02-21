@@ -19,3 +19,7 @@ For version releases, we are using the Semantic Versioning Specification (SemVer
 
 Once a new version of the tool is ready to be released, software artifacts that can be readily deployed on servers are published on the [AMP github repository](https://github.com/devgateway/amp/releases) 
 and can be downloaded by anyone. This publishing model makes setup and deployment easier as there is no need to download and compile the source code of the tool every time a server is updated.
+
+# Learn How to Contribute
+
+If you are interested in contributing to the Aid management platform, please read our [Contribution Guidelines](/contrib/).
