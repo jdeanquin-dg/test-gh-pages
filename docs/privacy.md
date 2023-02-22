@@ -18,19 +18,19 @@ See the Annex below for Key Terms.
 
 DG is committed, to the best of its ability, to managing project/program data in accordance with applicable data privacy laws and policies in the countries where we work. In the absence of a globally applicable data privacy law, we follow industry best practice in the safe collection, storage, disposal, use, and sharing of data. In particular, we treat information guided by the following principles:
 
-1.  Processed lawfully, fairly and in a transparent manner in relation to individuals;
+1. Processed lawfully, fairly and in a transparent manner in relation to individuals;
 
-2.  Collected for specific, explicit and legitimate purposes;
+2. Collected for specific, explicit and legitimate purposes;
 
-3.  Adequate, relevant and limited to what is necessary in relation to the purposes for which they are acquired;
+3. Adequate, relevant and limited to what is necessary in relation to the purposes for which they are acquired;
 
-4.  Accurate and, where necessary, kept up to date, with every reasonable step taken to ensure that inaccurate personal data is erased or rectified without delay;
+4. Accurate and, where necessary, kept up to date, with every reasonable step taken to ensure that inaccurate personal data is erased or rectified without delay;
 
-5.  Stored in a form which permits identification of individuals for no longer than is necessary for the purposes for which the data is collected during the life of the project/program, and stored for longer periods only for archiving purposes;
+5. Stored in a form which permits identification of individuals for no longer than is necessary for the purposes for which the data is collected during the life of the project/program, and stored for longer periods only for archiving purposes;
 
-6.  Stored in a manner that ensures appropriate security of the personal data, including protection against unauthorised or unlawful use and against accidental loss, destruction or damage, using appropriate technical or organisational measures; and
+6. Stored in a manner that ensures appropriate security of the personal data, including protection against unauthorised or unlawful use and against accidental loss, destruction or damage, using appropriate technical or organisational measures; and
 
-7.  Will not be sold for commercial purposes.
+7. Will not be sold for commercial purposes.
 
 ### What Data DG Collects
 
