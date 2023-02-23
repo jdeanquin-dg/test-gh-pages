@@ -40,6 +40,8 @@ File -> New -> Project from Version Control -> Git
 then you can choose the directory where you want to clone the repository, paste the repository URL and click on the `Clone` button.
 
 - Wait from the cloning process to finish.
+  
+- Alternatively, you can clone the repository using the `git clone` command
 
 - After cloning the repository, you need to select the `amp` directory in the cloned repository and open it as a project in IntelliJ IDEA.
 

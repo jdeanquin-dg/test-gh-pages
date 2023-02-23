@@ -29,7 +29,7 @@ Follow [these steps](https://docs.github.com/en/get-started/quickstart/contribut
 
 ## Local development setup
 
-Follow the instructions in the [Local Development Setup](/dev-setup/) page to setup your local development environment.
+Follow the instructions in the [Local Development Setup](/test-gh-pages/dev-setup/) page to setup your local development environment.
 
 ## Making and pushing changes
 
