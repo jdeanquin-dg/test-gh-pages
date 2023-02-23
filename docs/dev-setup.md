@@ -11,7 +11,7 @@ This page describes how to setup a local development environment for the Aid Man
 ### Prerequisites
 
 - [Java 8](https://www.oracle.com/java/technologies/downloads/#java8)
-- [PostgreSQL](https://www.postgresql.org/download/)
+- [PostgreSQL 14](https://www.postgresql.org/download/)
 - [PosGIS](https://postgis.net/install/)
 - [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
 - [Node.JS 16](https://nodejs.org/dist/v16.9.1/) (Or install it using your package manager of choice)
