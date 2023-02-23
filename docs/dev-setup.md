@@ -188,19 +188,51 @@ You can follow the steps below to setup the project:
 - Select `Update classes and resources` for the `On update action` option
 
 - Click on the configure button next to the `Application Server` field and select the folder where tomcat is located folder as shown below:
+- Click on the `+` button to select the tomcat folder
 
 | [![Add Tomcat Server](/assets/img/Intellij_add_tomcat.png)](/assets/img/Intellij_add_tomcat.png) | [![Select Tomcat Server](/assets/img/Intellij_select_tomcat_server.png)](/assets/img/Intellij_select_tomcat_server.png) |
 
 - Click `OK` to save the configuration
 
-#### 7. Run the application
+- Under the `Deployment` tab, click on the `+` button and select `Artifact...` as shown below:
+  
+  [![Add Artifact](/assets/img/Intellij_add_artifact.png)](/assets/img/Intellij_add_artifact.png)
+
+- Select the `amp:war exploded` artifact and click `OK` as shown below:
+  
+  [![Select Artifact](/assets/img/Intellij_select_artifact.png)](/assets/img/Intellij_select_artifact.png)
+
+- Set the Application context to `/` as shown below:
+  
+  [![Set Application Context](/assets/img/Intellij_set_application_context.png)](/assets/img/Intellij_set_application_context.png)
+
+- Click `OK` to save the configuration
+
+#### 7. Running the application
 
 You can run the application by following the steps below:
 
 - Open the `amp` project in IntelliJ IDEA
 - Click on the `Run` menu
-- Click on the `Run...` option
-- Select the `amp` configuration and click `OK`
+- Run the application using the Tomcat configuration you created earlier
+- Click the run button and wait for the application to start
+- You will be able to access the application at `http://localhost:8080/` where you will see the login page as shown below:
+  
+  [![Login Page](/assets/img/AMP_login_page.png)](/assets/img/AMP_login_page.png)
+
+- You can login using the following credentials for normal users:
+
+  ```bash
+    Username: atl@amp.org
+    Password: abc
+    ```
+
+- You can login using the following credentials for admin users:
+  
+  ```bash
+    Username: admin@amp.org
+    Password: abc
+    ```
 
 ## Additional Information
 
