@@ -6,27 +6,27 @@ permalink: /install/
 
 # Installation instructions
 
+### Hosting requirements
 
-### Hosting requirements:
 Operating System: GNU Linux/Unix
 CPU: 4 cores, 64 bit
 RAM Memory: 16 GB
 Storage: 350 GB
 Network: Public IP address, Domain name, port 443
 
-### Prerequisites:
+### Prerequisites
+
 Open JDK 8
 Apache Tomact 8.5
 PostgreSQL 14 with PostGIS 3.2.3 extension
 
+### Deliverables
 
-### Deliverables:
 Main application: amp-v3.5.war
-
 
 ### Email
 
-Configure SMTP server to serve on localhost port 25 without any authentication, if you are enabling the server to send emails. 
+Configure SMTP server to serve on localhost port 25 without any authentication, if you are enabling the server to send emails.
 
 ### PostgreSQL
 
@@ -38,9 +38,8 @@ In /etc/postgresql/14/main/pg_hba.conf you must have the following lines:
 
 ```
 IPv4 local connections:
-host	all         	all         	127.0.0.1/32        	trust
+host all          all          127.0.0.1/32         trust
 ```
-
 
 ### Application Settings
 
@@ -156,10 +155,197 @@ Make sure you have file extensions being shown ("hide file extensions for known 
   - Attempt to use AMP a bit: log in, see that tabs are loading, run a report, create an activity, add a document, open GIS, open dashboards.
   - Check Tomcat logs (usually under the tomcat directory / logs): check whether there any patches that failed to apply, or any exceptions having been thrown.
 
-### Nginx
+### Configuring the reverse proxy
+
+- A reverse proxy can be used to redirect requests to the AMP application to the correct port and server.
+- There are two ways to configure the reverse proxy:
+  - Using Apache 2.4
+  - Using Nginx 1.14 (recommended)
+
+#### **Apache**
+
+The Apache 2.4 webserver is configured to redirect any plain text (HTTP) requests to their TLS-encrypted (HTTPS) counterparts. Additionally, it is enforcing Strict Transport Security by pinning the necessary headers. TLS certificate is provided by LetsEncrypt service. The server is configured to only allow secure modern encryption protocols (TLS v1.2 and v1.3) as well as only strong cipher suites.
+
+**These are the steps to setup Apache 2.4 on a Debian GNU/Linux System:**
+
+- Install Apache 2.4 using your package manager (An example for Debian based systems):
+
+    ```bash
+    apt-get install apache2
+    ```
+
+- Enable the following modules:
+
+    ```bash
+    a2enmod proxy
+    a2enmod proxy_http
+    a2enmod proxy_wstunnel
+    a2enmod ssl
+    a2enmod headers
+    ```
+
+***Configure AJP Proxy on Tomcat***
+
+- Open the file `/etc/tomcat8/server.xml`
+  - Add the following lines to the `<Connector>` tag:
+
+    ```xml
+    <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" />
+    ```
+
+  - Restart Tomcat
+  - Reconfigure Apache by enabling proxy_ajp module. Usually can be done via a symlink (may depend on apache version):
+  
+    ```bash
+      ln -s /etc/apache2/mods-available/proxy_ajp.load /etc/apache2/mods-enabled/proxy_ajp.load
+      ```
+
+  - Configure VirtualHost and replace http proxy with ajp proxy:
+  
+    ```bash
+      # before
+     ProxyPass / http://localhost:8080/
+     ProxyPassReverse / http://localhost:8080/
+
+     # after
+     ProxyPass / ajp://localhost:8009/
+     ProxyPassReverse / ajp://localhost:8009/
+     ```
+
+  - Note that protocol changed from http to ajp and ports also changed. It is very important to keep / at the end.
+  - Restart Apache
+
+***Configure SSL***
+
+- Install the LetsEncrypt client (certbot):
+  - Install pip (if not already installed):
+
+     ```bash
+     sudo apt install python3 python3-venv libaugeas0 libssl-dev libffi-dev python3-dev python3-pip
+     ```
+
+  - Setup a virtual environment for certbot:
+
+     ```bash
+     python3 -m venv /opt/certbot
+     ```
+
+  - Activate the virtual environment:
+
+     ```bash
+      source /opt/certbot/bin/activate
+      ```
+
+  - Install certbot:
+
+     ```bash
+      sudo /opt/certbot/bin/pip install certbot certbot-apache
+      ```
+
+  - Create a symbolic link to the certbot executable:
+
+     ```bash
+      ln -s /opt/certbot/bin/certbot /usr/bin/certbot
+      ```
+
+  - Create an SSL certificate for the domain you are installing AMP on:
+
+     ```bash
+      certbot --apache -d <domain>
+      ```
+
+  - Follow the instructions to verify the domain and create the certificate.
+    - Enter an email address for renewal and security notices.
+    - Agree to the terms of service.
+    - Specify whether to receive emails from EFF.
+    - If prompted, choose whether to redirect HTTP traffic to HTTPS
+    - Setup a cron job to renew the certificate automatically
+
+    ```bash
+      systemctl show certbot.timer
+      ```
+
+    - Ensure the renewal process is working correctly:
+
+    ```bash
+      certbot renew --dry-run
+      ```
+
+  - Certbot during setup copies the config of VirtualHost *:80 to VirtualHost*:443. Thus we can simplify http config by removing everything except the redirect rule:
+
+    ```xml
+      <VirtualHost *:80>
+        RewriteEngine on
+        RewriteCond %{SERVER_NAME} =amp.domain1.org [OR]
+        RewriteCond %{SERVER_NAME} =amp.domain2.net
+        RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+      </VirtualHost>
+      ```
+
+**These are the steps to setup Apache 2.4 on a Windows Server:**
+
+- Connect to the server using RDP.
+- Install Apache 2.4 from [Apache Lounge](https://www.apachelounge.com/download/).
+- Select the option to install the Apache HTTP Server as a Windows Service.
+
+- ***Configure AJP Proxy on Tomcat***
+  - Open the file `/etc/tomcat8/server.xml`
+  - Add the following lines to the `<Connector>` tag:
+
+    ```xml
+    <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" />
+    ```
+
+  - Restart Tomcat
+  - Reconfigure Apache by enabling proxy_ajp module. Usually can be done via a symlink (may depend on apache version):
+  
+    ```powershell
+      mklink /d "C:\Program Files\Apache Software Foundation\Apache2.4\modules\proxy_ajp.load" "C:\Program Files\Apache Software Foundation\Apache2.4\modules\proxy_ajp.load"
+      ```
+
+  - Configure VirtualHost and replace http proxy with ajp proxy:
+  
+    ```bash
+      # before
+     ProxyPass / http://localhost:8080/
+     ProxyPassReverse / http://localhost:8080/
+
+     # after
+     ProxyPass / ajp://localhost:8009/
+     ProxyPassReverse / ajp://localhost:8009/
+     ```
+
+  - Note that protocol changed from http to ajp and ports also changed. It is very important to keep / at the end.
+  - Restart Apache
+
+- ***Configure SSL***
+
+  - Download the latest version of the Certbot installer for Windows at [Certbot Widnows Download](https://dl.eff.org/certbot-beta-installer-win_amd64.exe).
+  - Run the installer and follow the wizard. The installer will propose a default installation directory, `C:\Program Files(x86)`, (that can be customized.)
+  - To start a shell for Certbot, select the Start menu, enter cmd (to run CMD.EXE) or powershell (to run PowerShell), and click on `Run as administrator` in the contextual menu that shows up above.
+  - Run Certbot as a shell command.
+  - To run a command on Certbot, enter the name certbot in the shell, followed by the command and its parameters. For instance, to display the inline help, run:
+  
+    ```powershell
+    C:\WINDOWS\system32> certbot --help
+    ```
+
+  - To create a certificate, run:
+  
+    ```powershell
+    C:\WINDOWS\system32> certbot certonly --webroot -w "C:\inetpub\wwwroot" -d <domain>
+    ```
+
+  - Test the renewal process by running:
+  
+    ```powershell
+    C:\WINDOWS\system32> certbot renew --dry-run
+    ```
+
+<!-- ### Nginx
 
 Web requests to the applications are dispatched by Nginx 1.14 webserver, running on Debian GNU/Linux Stable (Buster) AMD64.
 
 The webserver is configured to redirect any plain text (HTTP) requests to their TLS-encrypted (HTTPS) counterparts. Additionally, it is enforcing Strict Transport Security by pinning the necessary headers. TLS certificate is provided by LetsEncrypt service. The server is configured to only allow secure modern encryption protocols (TLS v1.2 and v1.3) as well as only strong cipher suites.
 
-The server requests compliant robots not to index the website by serving a restrictive robots.txt file.
+The server requests compliant robots not to index the website by serving a restrictive robots.txt file. -->
